@@ -61,39 +61,40 @@ use:
 
 ``` r
 check_api_key(Sys.getenv("PURPLE_AIR_API_KEY"))
-#> ✔ Using valid 'READ' key with version V1.0.14-0.0.57 of the PurpleAir API on 1720399876
+#> ✔ Using valid 'READ' key with version V1.0.14-0.0.58 of the PurpleAir API on 1728410515
 ```
 
 Get the latest data from a single PurpleAir sensor, defined by its
-[sensor key](https://community.purpleair.com/t/sensor-indexes-and-read-keys/4000):
+[sensor
+key](https://community.purpleair.com/t/sensor-indexes-and-read-keys/4000):
 
 ``` r
 get_sensor_data(sensor_index = 175413,
                 fields = c("name", "last_seen", "pm2.5_cf_1", "pm2.5_atm"))
 #> $last_seen
-#> [1] "2024-07-07 20:50:13 EDT"
+#> [1] "2024-10-08 13:59:39 EDT"
 #> 
 #> $name
 #> [1] "JN-Clifton,OH"
 #> 
 #> $pm2.5_atm
-#> [1] 9.5
+#> [1] 0.9
 #> 
 #> $pm2.5_cf_1
-#> [1] 9.5
+#> [1] 0.9
 ```
 
 Get the latest data from many PurpleAir sensors, defined by their sensor
 keys,
 
 ``` r
-get_sensors_data(x = as.integer(c(175257, 175413)),
+get_sensors_data(x = c(175257, 175413),
                  fields = c("name", "last_seen", "pm2.5_cf_1", "pm2.5_atm"))
 #> # A tibble: 2 × 5
 #>   sensor_index last_seen           name          pm2.5_atm pm2.5_cf_1
 #>          <int> <dttm>              <chr>             <dbl>      <dbl>
-#> 1       175257 2024-07-07 20:50:30 Lillard             9.9        9.9
-#> 2       175413 2024-07-07 20:50:13 JN-Clifton,OH       9.5        9.5
+#> 1       175257 2024-10-08 14:00:02 Lillard             1.4        1.4
+#> 2       175413 2024-10-08 14:01:39 JN-Clifton,OH       1          1
 ```
 
 a geographic [bounding box](http://bboxfinder.com),
@@ -109,40 +110,40 @@ sf::st_bbox(
   crs = 4326
 ) |>
   get_sensors_data(fields = c("name"))
-#> # A tibble: 45 × 2
-#>    sensor_index name              
-#>           <int> <chr>             
-#>  1        30303 아가페_실내       
-#>  2        30561 lineblock_outside2
-#>  3        30571 amlok_inside      
-#>  4        36325 807d3a616167      
-#>  5        36681 68c63a8e59a       
-#>  6        42623 KMI_041           
-#>  7        49191 BCDDC264D0B1      
-#>  8        49193 ECFABCB88583      
-#>  9        49199 ECFABC59A4F4      
-#> 10        49213 807D3A615D1E      
-#> # ℹ 35 more rows
+#> # A tibble: 56 × 2
+#>    sensor_index name                
+#>           <int> <chr>               
+#>  1        35225 Mt. Washington      
+#>  2       102568 SR32                
+#>  3       103282 Carolina pines      
+#>  4       111898 Bridgetown Sanctuary
+#>  5       120311 Loveland            
+#>  6       127885 Meals on Wheels     
+#>  7       127915 MSD 6               
+#>  8       127921 Groundwork          
+#>  9       130719 NKU KY DAQ          
+#> 10       156117 Tshs 1              
+#> # ℹ 46 more rows
 ```
 
 or a date from which sensors must have been modified since.
 
 ``` r
 get_sensors_data(as.POSIXct(Sys.time()) - 60, fields = "name")
-#> # A tibble: 5,299 × 2
-#>    sensor_index name                  
-#>           <int> <chr>                 
-#>  1          314 Parker                
-#>  2          749 Agia                  
-#>  3          928 Cobble Hill El        
-#>  4          934 Glenmohr Drive        
-#>  5          978 Hillerød f989         
-#>  6         1006 Platani               
-#>  7         1030 Trion Navarchon Old   
-#>  8         1090 Nicola Street West    
-#>  9         1128 USCEHC Lincoln Heights
-#> 10         1248 UNBC-PA13             
-#> # ℹ 5,289 more rows
+#> # A tibble: 568 × 2
+#>    sensor_index name                                           
+#>           <int> <chr>                                          
+#>  1          978 Hillerød f989                                  
+#>  2         1294 Roberts Creek                                  
+#>  3         1638 Moab                                           
+#>  4         2372 SCSB_22                                        
+#>  5         2574 Berkeley Park and Coventry, Kensington, CA, USA
+#>  6         3088 Howe Neighborhood                              
+#>  7         3277 Shop                                           
+#>  8         3497 Olive                                          
+#>  9         5538 Hood River Weather                             
+#> 10         6408 Amberwood                                      
+#> # ℹ 558 more rows
 ```
 
 Get historical data from a single PurpleAir sensor:
